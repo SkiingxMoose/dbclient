@@ -220,7 +220,7 @@ public class MyCloudJ_ implements PlugIn {
 	@SuppressWarnings("deprecation")
 	public void run(final String arg) {
 		/*
-		 * A JFrame that contains the whole GUI for the MyCloudJ_ plugin
+		 * A JFrame that contains the whole GUI for the MyCloudJ_ plug-in
 		 * mainFrame : contains topPanel1(Left side of the mainFrame) and
 		 * topPanel2(Right side of the mainFrame)
 		 */
@@ -234,7 +234,7 @@ public class MyCloudJ_ implements PlugIn {
 
 		/*
 		 * JPanels for better alignment of Components in JFrame topPanel1 : Left
-		 * side of the mainFrame. It will contain: Instructions, Acess Dropbox
+		 * side of the mainFrame. It will contain: Instructions, Access Dropbox
 		 * button, Access Code, Connect button etc. In short, it will contains
 		 * the components used to connect to the dropbox account.
 		 * 
@@ -269,12 +269,19 @@ public class MyCloudJ_ implements PlugIn {
 		// topPanel2
 
 		/*
-		 * These panels will add into topPanel1 (Left side of the frame) lPanel1
-		 * : To display Instructions lPanel2 : Access Dropbox Button lPanel3 :
-		 * Access code label, Access Code JTextField and Connect button lPanel4
-		 * : User Status Label: Connected as <username> or Not Connected lPanel5
-		 * : To display dropbox related information: <username>, <country> and
-		 * <user quota(in GBs)>
+		 * These panels will add into topPanel1 (Left side of the frame)
+		 * 
+		 * lPanel1: To display Instructions
+		 * 
+		 * lPanel2 : Access Dropbox Button
+		 * 
+		 * lPanel3 : Access code label, Access Code JTextField and Connect
+		 * button
+		 * 
+		 * lPanel4 : User Status Label: Connected as <username> or Not Connected
+		 * 
+		 * lPanel5 : To display dropbox related information: <username>,
+		 * <country> and <user quota(in GBs)>
 		 * 
 		 * Note : All these panels will be added into topPanel1(left side of the
 		 * mainFrame)
@@ -317,7 +324,7 @@ public class MyCloudJ_ implements PlugIn {
 
 		/*
 		 * Add JTextField : This is where user has to paste the Dropbox Access
-		 * Code. Plugin can only be connected if user enters the correct
+		 * Code. Plug-in can only be connected if user enters the correct
 		 * "Access Code" and clicks "Connect" button.
 		 * 
 		 * Added onto panel3
@@ -496,7 +503,7 @@ public class MyCloudJ_ implements PlugIn {
 				if (userStatus == 0) {
 					// Generate the authorize URL
 					try {
-						// Generate dropbox app url
+						// Generate dropbox application URL
 						authorizeUrl = obj.DbxLogin();
 					} catch (IOException | DbxException e4) {
 						JOptionPane.showMessageDialog(mainFrame,
@@ -506,7 +513,7 @@ public class MyCloudJ_ implements PlugIn {
 						e4.printStackTrace();
 					}
 
-					// To open the url in the default browser. If return value
+					// To open the URL in the default browser. If return value
 					// is "done", it is successful. Otherwise, some error
 					final String value = obj.openDefaultBrowser(authorizeUrl);
 					if (value.equals("done"))
@@ -627,7 +634,7 @@ public class MyCloudJ_ implements PlugIn {
 				// then source is the Dropbox, browse from Dropbox
 				else if (rButton2.isSelected()) {
 					/*
-					 * This JFrame contains Dropbox Jtree for selecting the
+					 * This JFrame contains Dropbox JTree for selecting the
 					 * files/folder
 					 */
 					final JFrame treeFrame = new JFrame();
@@ -1027,7 +1034,7 @@ public class MyCloudJ_ implements PlugIn {
 					return;
 				}
 
-				// If user wants to upload, this will be executed othewise else
+				// If user wants to upload, this will be executed otherwise else
 				// block will execute
 				if (rButton1.isSelected()) {
 					// open the file selected by the user
@@ -1168,7 +1175,7 @@ public class MyCloudJ_ implements PlugIn {
 								 * from Dropbox
 								 * 
 								 * DbxPath.getName(path) : Returns just the last
-								 * component of the path. For Ex: getName("/")
+								 * component of the path. For example: getName("/")
 								 * returns "/" getName("/Photos") returns
 								 * "Photos" getName("/Photos/Home.jpeg") returns
 								 * "Home.jpeg"
@@ -1266,7 +1273,7 @@ public class MyCloudJ_ implements PlugIn {
 
 		/*
 		 * JTextArea : For user's information (task related) Added onto rPanel5
-		 * Added the scrollpane to text area
+		 * Added the JScrollPane to text area
 		 */
 		final JScrollPane msgsScrollPane = new JScrollPane(msgs);
 		msgsScrollPane
