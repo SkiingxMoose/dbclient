@@ -55,52 +55,73 @@ public class DbxUtility {
 	 */
 	private static final String APP_SECRET = "t0ln07k26pctonw";
 
-	/*
-	 * Dropbox API objects:
-	 * 
-	 * client : obj of class DbxClient. Use this class to make remote calls to
-	 * the Dropbox API. You'll need an access token first. Note the public
-	 * access specifier
-	 * 
-	 * webAuth : obj of class DbxWebAuthNoRedirect. This class does the OAuth
+	// Dropbox API objects:
+	/**
+	 * An object of class {@link DbxClient}. Use this class to make remote calls
+	 * to the Dropbox API. You'll need an access token first. Note the public
+	 * access specifier.
+	 */
+	public DbxClient client;
+	/**
+	 * An object of class DbxWebAuthNoRedirect. This class does the OAuth
 	 * web-based authorization flow for apps that can't provide a redirect URI.
-	 * 
-	 * config : obj of class DbxRequestConfig. This class manages the grouping
-	 * of a few configuration parameters for how we should make requests to the
+	 */
+	private DbxWebAuthNoRedirect webAuth;
+	/**
+	 * Object of class DbxRequestConfig. This class manages the grouping of a
+	 * few configuration parameters for how we should make requests to the
 	 * Dropbox servers.
-	 * 
+	 */
+	private DbxRequestConfig config;
+	/**
 	 * appInfo : obj of class DbxAppInfo. This class Identifies the information
 	 * of the Dropbox App (In our case, it is the MyCloudJ_ Dropbox App).
-	 * 
+	 */
+	private DbxAppInfo appInfo;
+	/**
 	 * authFinish : obj of class DbxAuthFinish. When you successfully complete
 	 * the authorization process, the Dropbox server returns this information to
 	 * you.
-	 * 
+	 */
+	private DbxAuthFinish authFinish;
+	/**
 	 * authorizeUrl : String that stores the MyCloudJ App url.
-	 * 
+	 */
+	private String authorizeUrl;
+	/**
 	 * accessToken : String that stores the access token that allows to access a
 	 * particular user's account. It is temporary and has to be generated
 	 * everytime.
 	 */
-	public DbxClient client;
-	private DbxWebAuthNoRedirect webAuth;
-	private DbxRequestConfig config;
-	private DbxAppInfo appInfo;
-	private DbxAuthFinish authFinish;
-	private String authorizeUrl;
 	private String accessToken;
 
-	/*
+	// User's Dropbox information
+	/**
 	 * User's Dropbox information : Displayed in the text area after the plugin
 	 * is connected to user's dropbox account.
 	 * 
-	 * userName : Dropbox user name country : Country userQuota : Total size(in
-	 * GBs) of user's dropbox account
+	 * userName : Dropbox user name
 	 */
-	public String userName = "", country = "", userQuota = "";
+	public String userName = "";
+	/**
+	 * User's Dropbox information : Displayed in the text area after the plugin
+	 * is connected to user's dropbox account.
+	 * 
+	 * country : Country
+	 */
+	public String country = "";
+	/**
+	 * User's Dropbox information : Displayed in the text area after the plugin
+	 * is connected to user's dropbox account.
+	 * 
+	 * userQuota : Total size(in GBs) of user's dropbox account
+	 */
+	public String userQuota = "";
 
-	// Stores the OS-type: Linux/Windows/Mac. It is used to solve the problem of
-	// path separator(/ or \\). It makes plugin platform independent.
+	/**
+	 * Stores the OS-type: Linux/Windows/Mac. It is used to solve the problem of
+	 * path separator(/ or \\). It makes plugin platform independent.
+	 */
 	public String OS = System.getProperty("os.name").toLowerCase();
 
 	/*
@@ -242,8 +263,8 @@ public class DbxUtility {
 		if (inputFolder.isDirectory()) {
 			@SuppressWarnings("unused")
 			final// Create a new folder of name "string folderName" inside
-					// Dropbox
-					// folder TargetDbxPath
+			// Dropbox
+			// folder TargetDbxPath
 			DbxEntry folder = client.createFolder(TargetDbxPath + folderName);
 
 			// List of files inside the folder
