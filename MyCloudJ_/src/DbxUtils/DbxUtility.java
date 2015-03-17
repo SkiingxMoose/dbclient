@@ -190,19 +190,23 @@ public class DbxUtility {
 		return authorizeUrl;
 	}
 
-	/*
+	/**
 	 * Function to accept the Access code and link the account of the user
 	 * concerned.
+	 * 
+	 * This will fail if the user enters an invalid authorization code.
+	 * 
+	 * @param code
+	 * @throws DbxException
+	 * @throws IOException
 	 */
 	public void DbxLinkUser(final String code) throws IOException, DbxException {
 		/*
-		 * This will fail if the user enters an invalid authorization code.
 		 * authFinish : When you successfully complete the authorization
 		 * process, the Dropbox server returns this information to you.
-		 * accessToken : An access token that can be used to make Dropbox API
-		 * calls.
 		 */
 		authFinish = webAuth.finish(code);
+		// An access token that can be used to make Dropbox API calls.
 		accessToken = authFinish.accessToken;
 
 		// Passed accessToken in to the DbxClient constructor.
@@ -218,16 +222,18 @@ public class DbxUtility {
 				/ (1024 * 1024 * 1024);
 	}
 
-	/*
+	/**
 	 * Function to upload a "File" to Dropbox given the complete path of the
 	 * file in local machine and the Dropbox folder's path where "File" has to
 	 * be saved.
 	 * 
-	 * Parameters:
-	 * 
-	 * FileLocalPath : Absolute Local Path of the File to be uploaded to Dropbox
-	 * TargetDbxPath : Absolute Dropox Path of the folder where the file is to
-	 * be added
+	 * @param FileLocalPath
+	 *            Absolute Local Path of the File to be uploaded to Dropbox
+	 * @param TargetDbxPath
+	 *            Absolute Dropox Path of the folder where the file is to be
+	 *            added
+	 * @throws IOException
+	 * @throws DbxException
 	 */
 	public void DbxUploadFile(final String FileLocalPath,
 			final String TargetDbxPath) throws IOException, DbxException {
@@ -246,16 +252,18 @@ public class DbxUtility {
 		}
 	}
 
-	/*
+	/**
 	 * Function to upload a "Folder" to Dropbox given the complete path of the
 	 * folder in local machine and the Dropbox folder's path where "Folder" has
 	 * to be saved.
 	 * 
-	 * Parameters:
-	 * 
-	 * FolderLocalPath : Absolute Path of the Folder to be uploaded to Dropbox
-	 * TargetDbxPath : Absolute Dropox Path of the folder where the Folder has
-	 * to be uploaded
+	 * @param FolderLocalPath
+	 *            Absolute Path of the Folder to be uploaded to Dropbox
+	 * @param TargetDbxPath
+	 *            Absolute Dropox Path of the folder where the Folder has to be
+	 *            uploaded
+	 * @throws IOException
+	 * @throws DbxException
 	 */
 	public void DbxUploadFolder(final String FolderLocalPath,
 			final String TargetDbxPath) throws IOException, DbxException {
@@ -263,7 +271,7 @@ public class DbxUtility {
 		// '/'
 		final String newFolderLocalPath = FolderLocalPath.replace('\\', '/');
 
-		// Extract the foldername i.e. Last part of the Path
+		// Extract the folder name i.e. Last part of the Path
 		String folderName;
 		folderName = newFolderLocalPath.substring(newFolderLocalPath
 				.lastIndexOf("/"));
@@ -307,16 +315,19 @@ public class DbxUtility {
 			DbxUploadFile(FolderLocalPath, TargetDbxPath + folderName);
 	}
 
-	/*
+	/**
 	 * Function to download a "File" from Dropbox given the complete path of the
 	 * file in Dropbox and also local machine path where the "File" has to be
 	 * saved.
 	 * 
-	 * Parameters:
-	 * 
-	 * FileDbxPath : Complete Dropbox Path of the File to be downloaded from
-	 * Dropbox TargetLocalPath : Absolute Local Path of the folder where the
-	 * file has to be downloaded
+	 * @param FileDbxPath
+	 *            Complete Dropbox Path of the File to be downloaded from
+	 *            Dropbox
+	 * @param TargetLocalPath
+	 *            Absolute Local Path of the folder where the file has to be
+	 *            downloaded
+	 * @throws IOException
+	 * @throws DbxException
 	 */
 	public void DbxDownloadFile(final String FileDbxPath, String TargetLocalPath)
 			throws IOException, DbxException {
@@ -341,16 +352,19 @@ public class DbxUtility {
 		}
 	}
 
-	/*
+	/**
 	 * Function to download a "Folder" from Dropbox given the complete path of
 	 * the Folder in Dropbox and also the local machine path where the "Folder"
 	 * has to be saved.
 	 * 
-	 * Parameters:
-	 * 
-	 * FolderDbxPath : Complete Dropbox Path of the Folder to be downloaded from
-	 * Dropbox TargetLocalPath : Absolute Local Path of the folder where the
-	 * Folder has to be downloaded
+	 * @param FolderDbxPath
+	 *            Complete Dropbox Path of the Folder to be downloaded from
+	 *            Dropbox
+	 * @param TargetLocalPath
+	 *            Absolute Local Path of the folder where the Folder has to be
+	 *            downloaded
+	 * @throws IOException
+	 * @throws DbxException
 	 */
 	public void DbxDownloadFolder(final String FolderDbxPath,
 			String TargetLocalPath) throws IOException, DbxException {
@@ -400,17 +414,19 @@ public class DbxUtility {
 		}
 	}
 
-	/*
+	/**
 	 * Function to add nodes to the JTree
 	 * 
 	 * This function is called when user selects a parent node and clicks Expand
 	 * button
 	 * 
-	 * Parameters:
-	 * 
-	 * node : Parent node to which we have to add the child nodes. Treemodel :
-	 * DefaultTreeModel of the JTree where these nodes are to be added name :
-	 * name of the parent node
+	 * @param node
+	 *            arent node to which we have to add the child nodes.
+	 * @param Treemodel
+	 *            DefaultTreeModel of the JTree where these nodes are to be
+	 *            added
+	 * @param name
+	 *            name of the parent node
 	 */
 	public void addChildren(final DefaultMutableTreeNode node,
 			final DefaultTreeModel Treemodel, final String name) {
@@ -455,20 +471,21 @@ public class DbxUtility {
 		}
 	}
 
-	/*
+	/**
 	 * Function to add nodes to the JTree
 	 * 
 	 * This function is called when user selects a parent node and clicks Expand
 	 * button
 	 * 
-	 * Parameters:
-	 * 
-	 * node : Parent node to which we have to add the child nodes. TreeModel :
-	 * DefaultTreeModel of the JTree where this node has to be added. name :
-	 * name of the parent node
-	 * 
 	 * Note : The difference between this function is that it is used to add
 	 * only those nodes which are "folder" type.
+	 * 
+	 * @param node
+	 *            Parent node to which we have to add the child nodes.
+	 * @param Treemodel
+	 *            DefaultTreeModel of the JTree where this node has to be added.
+	 * @param name
+	 *            name of the parent node
 	 */
 	public void addChildrenFolder(final DefaultMutableTreeNode node,
 			final DefaultTreeModel Treemodel, final String name) {
@@ -507,13 +524,15 @@ public class DbxUtility {
 		}
 	}
 
-	/*
+	/**
 	 * This function only adds unique children nodes to the parent node.
 	 * 
-	 * Parameters:
-	 * 
-	 * parentNode : Node to which children has to be added childNode : Node to
-	 * be added to the parent Node model : JTree model
+	 * @param parentNode
+	 *            Node to which children has to be added.
+	 * @param childNode
+	 *            Node to be added to the parent Node.
+	 * @param model
+	 *            JTree model
 	 */
 	private void addUniqueNode(final DefaultMutableTreeNode parentNode,
 			final DefaultMutableTreeNode childNode, final DefaultTreeModel model) {
