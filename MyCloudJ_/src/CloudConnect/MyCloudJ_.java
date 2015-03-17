@@ -230,11 +230,22 @@ public class MyCloudJ_ implements PlugIn {
 	JTextArea instructions;
 
 	/**
+	 * This method is only used for testing the source code. This program is not
+	 * intended to be run as a stand-alone application.
+	 * 
+	 * @param args
+	 */
+	@Deprecated
+	public static void main(final String[] args) {
+		final MyCloudJ_ m = new MyCloudJ_();
+		m.run(null);
+	}
+
+	/**
 	 * Execution of the plug-in begins here. Function contains the code to
 	 * generate Graphical User Interface (GUI) for the plug-in.
 	 */
 	@Override
-	@SuppressWarnings("deprecation")
 	public void run(final String arg) {
 		createGUIComponents();
 
@@ -1186,6 +1197,10 @@ public class MyCloudJ_ implements PlugIn {
 		mainFrame.setResizable(false);
 		// This will position the JFrame in the center of the screen
 		mainFrame.setLocationRelativeTo(null);
+
+		// TEMP Just testing stuff here
+		mainFrame.setVisible(true);
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		/*
 		 * JPanels for better alignment of Components in JFrame topPanel1 : Left
