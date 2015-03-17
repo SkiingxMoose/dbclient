@@ -17,10 +17,13 @@ package DbxUtils;
  * Date				:		19-May-2014
  */
 
-import com.dropbox.core.*;
-
 import java.awt.Desktop;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Iterator;
@@ -29,8 +32,18 @@ import java.util.Locale;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
+import com.dropbox.core.DbxAppInfo;
+import com.dropbox.core.DbxAuthFinish;
+import com.dropbox.core.DbxClient;
+import com.dropbox.core.DbxEntry;
+import com.dropbox.core.DbxException;
+import com.dropbox.core.DbxPath;
+import com.dropbox.core.DbxRequestConfig;
+import com.dropbox.core.DbxWebAuthNoRedirect;
+import com.dropbox.core.DbxWriteMode;
+
 /**
- * Dropbox APIs calls for the MyCloudJ_ plugin are made from this class
+ * Dropbox APIs calls for the MyCloudJ_ plug-in are made from this class
  * 
  * @author Atin Mathur (mathuratin007@gmail.com)
  */
@@ -216,15 +229,18 @@ public class DbxUtility {
 	 * TargetDbxPath : Absolute Dropox Path of the folder where the file is to
 	 * be added
 	 */
-	public void DbxUploadFile(final String FileLocalPath, final String TargetDbxPath)
-			throws IOException, DbxException {
+	public void DbxUploadFile(final String FileLocalPath,
+			final String TargetDbxPath) throws IOException, DbxException {
 		final File inputFile = new File(FileLocalPath);
 		final InputStream inputStream = new FileInputStream(inputFile);
 		try {
-			if (!inputFile.isHidden())final @SuppressWarnings("unused")
-			// Upload the file to dropbox
-			DbxEntry.File uploadedFile = client.uploadFile(TargetDbxPath,
-					DbxWriteMode.add(), inputFile.length(), inputStream);
+			if (!inputFile.isHidden()) {
+				@SuppressWarnings("unused")
+				// Upload the file to dropbox
+				final DbxEntry.File uploadedFile = client.uploadFile(
+						TargetDbxPath, DbxWriteMode.add(), inputFile.length(),
+						inputStream);
+			}
 		} finally {
 			inputStream.close();
 		}
