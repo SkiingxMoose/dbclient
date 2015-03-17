@@ -137,15 +137,13 @@ public class DbxUtility {
 	 */
 	public String OS = System.getProperty("os.name").toLowerCase();
 
-	/*
+	/**
 	 * Function to open Dropbox App URL in the default browser for user
 	 * authentication
 	 * 
-	 * Parameters:
-	 * 
-	 * String url : MyCloudJ App url to be opened in the default browser
-	 * 
-	 * This function is called from the MyCloudJ_ class
+	 * @param url
+	 *            MyCloudJ App url to be opened in the default browser
+	 * @return the string "done" when the method is complete.
 	 */
 	public String openDefaultBrowser(final String url) {
 		if (Desktop.isDesktopSupported()) {
@@ -169,8 +167,12 @@ public class DbxUtility {
 		return "done";
 	}
 
-	/*
+	/**
 	 * Function for User Sign-in and Allow the Dropbox App MyCloudJ
+	 * 
+	 * @return Returns the App Url to the MyCloudJ plug-in
+	 * @throws IOException
+	 * @throws DbxException
 	 */
 	public String DbxLogin() throws IOException, DbxException {
 		// Identifying the information of MyCLoudJ App
@@ -180,9 +182,7 @@ public class DbxUtility {
 		config = new DbxRequestConfig("JavaTutorial/1.0", Locale.getDefault()
 				.toString());
 
-		/*
-		 * Generate the App url and start authorization
-		 */
+		// Generate the App url and start authorization
 		webAuth = new DbxWebAuthNoRedirect(config, appInfo);
 		authorizeUrl = webAuth.start();
 
