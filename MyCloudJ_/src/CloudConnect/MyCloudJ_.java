@@ -61,10 +61,9 @@ import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxPath;
 
 /**
- * MyCloudJ_ class contains the ImageJ plugin for Dropbox client for ImageJ
+ * MyCloudJ_ class contains the ImageJ plug-in for Dropbox client for ImageJ
  * 
  * @author Atin Mathur
- *
  */
 public class MyCloudJ_ implements PlugIn {
 
@@ -78,7 +77,7 @@ public class MyCloudJ_ implements PlugIn {
 	 */
 	private String code;
 	/**
-	 * Stores the APP Url.
+	 * Stores the APP URL.
 	 */
 	private String authorizeUrl;
 	/**
@@ -338,7 +337,7 @@ public class MyCloudJ_ implements PlugIn {
 		 * 
 		 * Added onto panel3
 		 * 
-		 * Note : Intially disabled.
+		 * Note : Initially disabled.
 		 */
 		final JButton btnConnect = new JButton("Connect !");
 		btnConnect.disable();
@@ -352,7 +351,7 @@ public class MyCloudJ_ implements PlugIn {
 		 * 
 		 * Added onto panel4
 		 * 
-		 * Note : Intial status "Not Connected !"
+		 * Note : Initial status "Not Connected !"
 		 */
 		final JLabel lblStatus = new JLabel("Not Connected !");
 		lPanel4.add(lblStatus);
@@ -486,8 +485,9 @@ public class MyCloudJ_ implements PlugIn {
 		});
 
 		/*
-		 * Add action listener for Access Dropbox button. This handles the
-		 * events associated with the "Access Dropbox" button.
+		 * Adds an action listener for the accessDbxButton button. This action
+		 * listener handles the events associated with the "Access Dropbox"
+		 * button.
 		 */
 		accessDbxButton.addActionListener(new ActionListener() {
 			@Override
