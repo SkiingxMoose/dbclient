@@ -1199,7 +1199,6 @@ public class MyCloudJ_ implements PlugIn {
 		mainFrame.setLocationRelativeTo(null);
 
 		// TEMP Just testing stuff here
-		mainFrame.setVisible(true);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		/*
