@@ -194,7 +194,7 @@ public class MyCloudJ_ implements PlugIn {
 	 * File : Used to Determine whether a path is File or Folder. Used in
 	 * calling download/upload functions for file or folder respectively.
 	 */
-	private int File = 0;
+	private int File = 0; // TODO Make this a boolean.
 
 	// Constant Strings.
 	/**
@@ -1169,6 +1169,10 @@ public class MyCloudJ_ implements PlugIn {
 		mainFrame.setVisible(true);
 	}
 
+	/**
+	 * Initializes all of the Swing Components used in the GUI. Furthermore,
+	 * this method sets the basic properties of most JComponents.
+	 */
 	private void createGUIComponents() {
 		/*
 		 * A JFrame that contains the whole GUI for the MyCloudJ_ plug-in
@@ -1251,7 +1255,8 @@ public class MyCloudJ_ implements PlugIn {
 		 * Added onto panel1
 		 */
 		displayInstructions = heading + step1 + step2 + step3 + step4 + step5
-				+ note1;
+				+ note1; // TODO If these strings are going to be added
+		// together, make them one string.
 		instructions = new JTextArea(displayInstructions);
 		instructions.setEditable(false);
 		lPanel1.add(instructions);
