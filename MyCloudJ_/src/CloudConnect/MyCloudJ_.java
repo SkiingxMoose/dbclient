@@ -86,6 +86,8 @@ public class MyCloudJ_ implements PlugIn {
 	 */
 	private int userStatus = 0;
 
+	// JTrees for storing Dropbox account meta data.
+	// DbxTree1
 	/**
 	 * The two DbxTrees store the complete meta data (path of folders) of
 	 * Dropbox account. Used to display when user browses to select the
@@ -94,9 +96,19 @@ public class MyCloudJ_ implements PlugIn {
 	 * Each node in DbxTree1 represents a file/folder
 	 */
 	private JTree DbxTree1;
+	/**
+	 * For use with {@link #DbxTree1}.
+	 * 
+	 * @see DefaultTreeModel
+	 */
 	private DefaultTreeModel treeModel1;
+	/**
+	 * For use with {@link #DbxTree1}.
+	 * 
+	 * @see DefaultMutableTreeNode
+	 */
 	private DefaultMutableTreeNode root1;
-
+	// DbxTree2
 	/**
 	 * Stores the complete meta data (path of folders) of Dropbox account. Used
 	 * to display when user browses to select the folders to Upload into.
@@ -104,7 +116,17 @@ public class MyCloudJ_ implements PlugIn {
 	 * Each node in DbxTree2 represents a folder
 	 */
 	private JTree DbxTree2;
+	/**
+	 * Tree Model for {@link #DbxTree2}.
+	 * 
+	 * @see DefaultTreeModel
+	 */
 	private DefaultTreeModel treeModel2;
+	/**
+	 * For use with {@link #DbxTree2}.
+	 * 
+	 * @see DefaultMutableTreeNode
+	 */
 	private DefaultMutableTreeNode root2;
 
 	/**
@@ -191,9 +213,9 @@ public class MyCloudJ_ implements PlugIn {
 			step5 = "  5. Click the \"Connect !\" button. You can now access Dropbox.\n \n",
 			note1 = "  Note: Enter the correct access code!";
 
-	/*
-	 * Execution of the plugin begins here. Function contains the code to
-	 * generate Graphical User Interface (GUI) for the plugin.
+	/**
+	 * Execution of the plug-in begins here. Function contains the code to
+	 * generate Graphical User Interface (GUI) for the plug-in.
 	 */
 	@Override
 	@SuppressWarnings("deprecation")
@@ -1272,16 +1294,16 @@ public class MyCloudJ_ implements PlugIn {
 		mainFrame.add(topPanel1);
 		mainFrame.add(topPanel2);
 		mainFrame.setVisible(true);
-
-		// End of the run() method
 	}
 
-	/*
+	/**
 	 * Function to enable/disable components inside a container(works for Nested
 	 * containers)
 	 * 
-	 * Parameters: Container container : container which you have to
-	 * disable/enable enabled : boolean value, true(enable) or false(disable)
+	 * @param container
+	 *            container which you have to disable/enable
+	 * @param enabled
+	 *            boolean value, true(enable) or false(disable)
 	 */
 	public void setEnabledAll(final Container container, final boolean enabled) {
 		final Component[] components = container.getComponents();
@@ -1290,11 +1312,8 @@ public class MyCloudJ_ implements PlugIn {
 				component.setEnabled(enabled);
 				if (component instanceof Container)
 					// to contain components
-					setEnabledAll((Container) component, enabled); // the
-				// recursive
-				// call
+					setEnabledAll((Container) component, enabled);
+				// the recursive call
 			}
 	}
-
-	// End of the MyCloudJ_ class
 }
