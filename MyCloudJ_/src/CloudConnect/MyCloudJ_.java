@@ -67,6 +67,7 @@ import com.dropbox.core.DbxPath;
  */
 public class MyCloudJ_ implements PlugIn {
 
+	protected static JFrame mainFrame = null;
 	/**
 	 * Object of the DbxUtility class. Used to access all the functions of this
 	 * class. Dropbox APIs are called from this DbxUtility class.
@@ -212,6 +213,22 @@ public class MyCloudJ_ implements PlugIn {
 			step5 = "  5. Click the \"Connect !\" button. You can now access Dropbox.\n \n",
 			note1 = "  Note: Enter the correct access code!";
 
+	// Generated Fields from Swing Components
+	private JButton btnConnect;
+	protected JTextField accessCode;
+	protected JLabel lblStatus;
+	protected JTextArea userInfo;
+	protected JPanel topPanel2;
+	private JButton accessDbxButton;
+	private JPanel topPanel1;
+	private JPanel lPanel1;
+	private JPanel lPanel2;
+	private JPanel lPanel3;
+	private JPanel lPanel4;
+	private JPanel lPanel5;
+	protected JTextArea msgs;
+	JTextArea instructions;
+
 	/**
 	 * Execution of the plug-in begins here. Function contains the code to
 	 * generate Graphical User Interface (GUI) for the plug-in.
@@ -219,161 +236,7 @@ public class MyCloudJ_ implements PlugIn {
 	@Override
 	@SuppressWarnings("deprecation")
 	public void run(final String arg) {
-		/*
-		 * A JFrame that contains the whole GUI for the MyCloudJ_ plug-in
-		 * mainFrame : contains topPanel1(Left side of the mainFrame) and
-		 * topPanel2(Right side of the mainFrame)
-		 */
-		final JFrame mainFrame = new JFrame();
-		mainFrame.setLayout(new FlowLayout());
-		mainFrame.setTitle("CloudConnect - MyCloudJ");
-		mainFrame.setSize(1200, 450);
-		mainFrame.setResizable(false);
-		// This will position the JFrame in the center of the screen
-		mainFrame.setLocationRelativeTo(null);
-
-		/*
-		 * JPanels for better alignment of Components in JFrame topPanel1 : Left
-		 * side of the mainFrame. It will contain: Instructions, Access Dropbox
-		 * button, Access Code, Connect button etc. In short, it will contains
-		 * the components used to connect to the dropbox account.
-		 * 
-		 * topPanel2 : Right side of the mainFrame. It will contain components
-		 * used to download/upload from the dropbox account.
-		 * 
-		 * Also set the titled border to topPanel1 and topPanel2
-		 */
-		final Border blackline = BorderFactory.createLineBorder(Color.black);
-		final TitledBorder title1 = BorderFactory.createTitledBorder(blackline,
-				"Dropbox Connect");
-		final TitledBorder title2 = BorderFactory.createTitledBorder(blackline,
-				"Dropbox Tasks");
-
-		// topPanel1
-		final JPanel topPanel1 = new JPanel();
-		topPanel1.setLayout(new BoxLayout(topPanel1, BoxLayout.PAGE_AXIS));
-		topPanel1.setBorder(title1);
-
-		// topPanel2
-		final JPanel topPanel2 = new JPanel();
-		topPanel2.setLayout(new BoxLayout(topPanel2, BoxLayout.PAGE_AXIS));
-		topPanel2.setBorder(title2);
-
-		// msgs will be used for displaying task related information to user
-		// (will be added to topPanel2)
-		final JTextArea msgs = new JTextArea();
-		msgs.setLineWrap(true);
-		msgs.setWrapStyleWord(true);
-
-		// First we'll add components to topPanel1. Then, we'll start with
-		// topPanel2
-
-		/*
-		 * These panels will add into topPanel1 (Left side of the frame)
-		 * 
-		 * lPanel1: To display Instructions
-		 * 
-		 * lPanel2 : Access Dropbox Button
-		 * 
-		 * lPanel3 : Access code label, Access Code JTextField and Connect
-		 * button
-		 * 
-		 * lPanel4 : User Status Label: Connected as <username> or Not Connected
-		 * 
-		 * lPanel5 : To display dropbox related information: <username>,
-		 * <country> and <user quota(in GBs)>
-		 * 
-		 * Note : All these panels will be added into topPanel1(left side of the
-		 * mainFrame)
-		 */
-		final JPanel lPanel1 = new JPanel(new FlowLayout());
-		final JPanel lPanel2 = new JPanel(new FlowLayout());
-		final JPanel lPanel3 = new JPanel(new FlowLayout());
-		final JPanel lPanel4 = new JPanel(new FlowLayout());
-		final JPanel lPanel5 = new JPanel(new FlowLayout());
-
-		/*
-		 * Add JTextArea : This text area is used to display instructions for
-		 * the new users.
-		 * 
-		 * Added onto panel1
-		 */
-		displayInstructions = heading + step1 + step2 + step3 + step4 + step5
-				+ note1;
-		final JTextArea instructions = new JTextArea(displayInstructions);
-		instructions.setEditable(false);
-		lPanel1.add(instructions);
-
-		/*
-		 * Add JButton : "Access the Dropbox button". This is used to open the
-		 * APP Url in the default browser.
-		 * 
-		 * Added onto panel2
-		 */
-		final JButton accessDbxButton = new JButton("Access Dropbox  !");
-		lPanel2.add(accessDbxButton);
-
-		/*
-		 * Add JLabel : "Access Code".
-		 * 
-		 * Added onto panel3
-		 */
-		JLabel lbl1;
-		lbl1 = new JLabel("Dropbox Access Code: ");
-		lPanel3.add(lbl1);
-
-		/*
-		 * Add JTextField : This is where user has to paste the Dropbox Access
-		 * Code. Plug-in can only be connected if user enters the correct
-		 * "Access Code" and clicks "Connect" button.
-		 * 
-		 * Added onto panel3
-		 * 
-		 * Note : Initially disabled.
-		 */
-		final JTextField accessCode = new JTextField(25);
-		accessCode.setText(null);
-		accessCode.enable(false);
-		lPanel3.add(accessCode);
-
-		/*
-		 * Add JButton : "Connect to Dropbox button". Users need to click this
-		 * button, once they paste the access code in the textfield. The plugin
-		 * will be successfully connected to the user's dropbox account, if it
-		 * enters the correct code. Otherwise, an exception is thrown.
-		 * 
-		 * Added onto panel3
-		 * 
-		 * Note : Initially disabled.
-		 */
-		final JButton btnConnect = new JButton("Connect !");
-		btnConnect.disable();
-		lPanel3.add(btnConnect);
-
-		/*
-		 * Add JLabel for user status -> connected or not connected. This label
-		 * will display the connection status of the plugin along with username
-		 * (if connected) Status Format : Connected as <username> or Not
-		 * Connected!
-		 * 
-		 * Added onto panel4
-		 * 
-		 * Note : Initial status "Not Connected !"
-		 */
-		final JLabel lblStatus = new JLabel("Not Connected !");
-		lPanel4.add(lblStatus);
-
-		/*
-		 * Add JTextArea : User Information This text area will display the user
-		 * information i.e Format:
-		 * 
-		 * Username: Country: Quota:
-		 * 
-		 * Added onto panel5
-		 */
-		final JTextArea userInfo = new JTextArea("\n\n");
-		userInfo.setEditable(false);
-		lPanel5.add(userInfo);
+		createGUIComponents();
 
 		/*
 		 * Event Handling for btnConnect. This handles the complete set set of
@@ -381,6 +244,7 @@ public class MyCloudJ_ implements PlugIn {
 		 * button.
 		 */
 		btnConnect.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(final ActionEvent e) {
 				try {
@@ -705,6 +569,8 @@ public class MyCloudJ_ implements PlugIn {
 					final JButton Select = new JButton("Select");
 					panel2.add(Select);
 					Select.addActionListener(new ActionListener() {
+						private JTextArea msgs;
+
 						@Override
 						public void actionPerformed(final ActionEvent e) {
 							// Get the latest node selected
@@ -1175,10 +1041,10 @@ public class MyCloudJ_ implements PlugIn {
 								 * from Dropbox
 								 * 
 								 * DbxPath.getName(path) : Returns just the last
-								 * component of the path. For example: getName("/")
-								 * returns "/" getName("/Photos") returns
-								 * "Photos" getName("/Photos/Home.jpeg") returns
-								 * "Home.jpeg"
+								 * component of the path. For example:
+								 * getName("/") returns "/" getName("/Photos")
+								 * returns "Photos" getName("/Photos/Home.jpeg")
+								 * returns "Home.jpeg"
 								 */
 								String lastPart = DbxPath.getName(localSource);
 
@@ -1301,6 +1167,166 @@ public class MyCloudJ_ implements PlugIn {
 		mainFrame.add(topPanel1);
 		mainFrame.add(topPanel2);
 		mainFrame.setVisible(true);
+	}
+
+	private void createGUIComponents() {
+		/*
+		 * A JFrame that contains the whole GUI for the MyCloudJ_ plug-in
+		 * mainFrame : contains topPanel1(Left side of the mainFrame) and
+		 * topPanel2(Right side of the mainFrame)
+		 */
+		mainFrame = new JFrame();
+		mainFrame.setLayout(new FlowLayout());
+		mainFrame.setTitle("CloudConnect - MyCloudJ");
+		mainFrame.setSize(1200, 450);
+		mainFrame.setResizable(false);
+		// This will position the JFrame in the center of the screen
+		mainFrame.setLocationRelativeTo(null);
+
+		/*
+		 * JPanels for better alignment of Components in JFrame topPanel1 : Left
+		 * side of the mainFrame. It will contain: Instructions, Access Dropbox
+		 * button, Access Code, Connect button etc. In short, it will contains
+		 * the components used to connect to the dropbox account.
+		 * 
+		 * topPanel2 : Right side of the mainFrame. It will contain components
+		 * used to download/upload from the dropbox account.
+		 * 
+		 * Also set the titled border to topPanel1 and topPanel2
+		 */
+		final Border blackline = BorderFactory.createLineBorder(Color.black);
+		final TitledBorder title1 = BorderFactory.createTitledBorder(blackline,
+				"Dropbox Connect");
+		final TitledBorder title2 = BorderFactory.createTitledBorder(blackline,
+				"Dropbox Tasks"); // TODO Make sure these don't need to be
+		// fields
+
+		// topPanel1
+		topPanel1 = new JPanel();
+		topPanel1.setLayout(new BoxLayout(topPanel1, BoxLayout.PAGE_AXIS));
+		topPanel1.setBorder(title1);
+
+		// topPanel2
+		topPanel2 = new JPanel();
+		topPanel2.setLayout(new BoxLayout(topPanel2, BoxLayout.PAGE_AXIS));
+		topPanel2.setBorder(title2);
+
+		// msgs will be used for displaying task related information to user
+		// (will be added to topPanel2)
+		msgs = new JTextArea();
+		msgs.setLineWrap(true);
+		msgs.setWrapStyleWord(true);
+
+		// First we'll add components to topPanel1. Then, we'll start with
+		// topPanel2
+
+		/*
+		 * These panels will add into topPanel1 (Left side of the frame)
+		 * 
+		 * lPanel1: To display Instructions
+		 * 
+		 * lPanel2 : Access Dropbox Button
+		 * 
+		 * lPanel3 : Access code label, Access Code JTextField and Connect
+		 * button
+		 * 
+		 * lPanel4 : User Status Label: Connected as <username> or Not Connected
+		 * 
+		 * lPanel5 : To display dropbox related information: <username>,
+		 * <country> and <user quota(in GBs)>
+		 * 
+		 * Note : All these panels will be added into topPanel1(left side of the
+		 * mainFrame)
+		 */
+		lPanel1 = new JPanel(new FlowLayout());
+		lPanel2 = new JPanel(new FlowLayout());
+		lPanel3 = new JPanel(new FlowLayout());
+		lPanel4 = new JPanel(new FlowLayout());
+		lPanel5 = new JPanel(new FlowLayout());
+
+		/*
+		 * Add JTextArea : This text area is used to display instructions for
+		 * the new users.
+		 * 
+		 * Added onto panel1
+		 */
+		displayInstructions = heading + step1 + step2 + step3 + step4 + step5
+				+ note1;
+		instructions = new JTextArea(displayInstructions);
+		instructions.setEditable(false);
+		lPanel1.add(instructions);
+
+		/*
+		 * Add JButton : "Access the Dropbox button". This is used to open the
+		 * APP Url in the default browser.
+		 * 
+		 * Added onto panel2
+		 */
+		accessDbxButton = new JButton("Access Dropbox  !");
+		lPanel2.add(accessDbxButton);
+
+		/*
+		 * Add JLabel : "Access Code".
+		 * 
+		 * Added onto panel3
+		 */
+		JLabel lbl1;
+		lbl1 = new JLabel("Dropbox Access Code: ");
+		lPanel3.add(lbl1);
+
+		/*
+		 * Add JTextField : This is where user has to paste the Dropbox Access
+		 * Code. Plug-in can only be connected if user enters the correct
+		 * "Access Code" and clicks "Connect" button.
+		 * 
+		 * Added onto panel3
+		 * 
+		 * Note : Initially disabled.
+		 */
+		accessCode = new JTextField(25);
+		accessCode.setText(null);
+		accessCode.enable(false);
+		lPanel3.add(accessCode);
+
+		/*
+		 * Add JButton : "Connect to Dropbox button". Users need to click this
+		 * button, once they paste the access code in the textfield. The plugin
+		 * will be successfully connected to the user's dropbox account, if it
+		 * enters the correct code. Otherwise, an exception is thrown.
+		 * 
+		 * Added onto panel3
+		 * 
+		 * Note : Initially disabled.
+		 */
+		btnConnect = new JButton("Connect !");
+		btnConnect.disable();
+		lPanel3.add(btnConnect);
+
+		/*
+		 * Add JLabel for user status -> connected or not connected. This label
+		 * will display the connection status of the plugin along with username
+		 * (if connected) Status Format : Connected as <username> or Not
+		 * Connected!
+		 * 
+		 * Added onto panel4
+		 * 
+		 * Note : Initial status "Not Connected !"
+		 */
+		lblStatus = new JLabel("Not Connected !");
+		lPanel4.add(lblStatus);
+
+		/*
+		 * Add JTextArea : User Information This text area will display the user
+		 * information i.e Format:
+		 * 
+		 * Username: Country: Quota:
+		 * 
+		 * Added onto panel5
+		 */
+		userInfo = new JTextArea("\n\n");
+		userInfo.setEditable(false);
+		lPanel5.add(userInfo);
+
 	}
 
 	/**
