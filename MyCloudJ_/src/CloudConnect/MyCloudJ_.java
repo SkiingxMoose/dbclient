@@ -241,6 +241,116 @@ public class MyCloudJ_ implements PlugIn {
 		m.run(null);
 	}
 
+	class BtnConnectListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(final ActionEvent e) {
+			try {
+				// retrieve the access code from textfield
+				code = accessCode.getText();
+
+				// if user is previously not connected and access code is
+				// not empty then connect it
+				if (userStatus == 0 && !code.equals("")) {
+					// connect user to dropbox
+					obj.DbxLinkUser(code);
+
+					// user status changed to 1(i.e., connected)
+					userStatus = 1;
+
+					/*
+					 * Retrieve username, country and quota from dropbox account
+					 * info API and print it in the text area for the user
+					 */
+					userName = obj.userName;
+					country = obj.country;
+					userQuota = obj.userQuota;
+					lblStatus.setText("Connected as " + userName);
+					userInfo.setText("Username: " + userName + "\nCountry: "
+							+ country + "\nQuota: " + userQuota + " GB");
+
+					/*
+					 * Added 2 different JTree (DbxTree1 and DbxTree2) for
+					 * download and upload respectively. Because DbxTree1
+					 * contains both files/folders as nodes. However, DbxTree2
+					 * contains only folders as nodes. For convenience, added 2
+					 * different JTree for Dropbox metadata. For robustness, we
+					 * are checking inside the code whether the selected node is
+					 * a file or folder rather can leaving it to user.
+					 */
+
+					/*
+					 * Create the JTree for browsing(to select path for
+					 * downloading the file/folder) Only added top
+					 * subfolder/files of the Dropbox root folder i.e. "/" Will
+					 * add new nodes on demand of the user in form of "Expand"
+					 * clicks
+					 */
+					root1 = new DefaultMutableTreeNode("/");
+					DbxTree1 = new JTree(root1);
+					treeModel1 = new DefaultTreeModel(root1);
+					obj.addChildren(root1, treeModel1, "/");
+					DbxTree1.getSelectionModel().setSelectionMode(
+							TreeSelectionModel.SINGLE_TREE_SELECTION);
+					treeModel1.reload(root1);
+
+					/*
+					 * Create the JTree for browsing(to select path for
+					 * uploading the file/folder) Only added subfolders of the
+					 * Dropbox root folder i.e. "/" Will add new nodes on demand
+					 * of the user in form of "Expand" clicks
+					 */
+					root2 = new DefaultMutableTreeNode("/");
+					DbxTree2 = new JTree(root2);
+					treeModel2 = new DefaultTreeModel(root2);
+					obj.addChildrenFolder(root2, treeModel2, "/");
+					DbxTree2.getSelectionModel().setSelectionMode(
+							TreeSelectionModel.SINGLE_TREE_SELECTION);
+					treeModel2.reload(root2);
+
+					/*
+					 * Disable the access code textfield and enable the the
+					 * right panel(which contains the tasks section) after the
+					 * user is connected.
+					 */
+					accessCode.disable();
+					// All the components of topPanel2 are enabled after
+					// successful connection with user's dropbox account
+					setEnabledAll(topPanel2, true);
+				}
+				// If user is already connected userStatus=1, warning for
+				// user
+				else if (userStatus == 1)
+					JOptionPane.showMessageDialog(mainFrame,
+							"Already connected !",
+							"MyCLoudJ - Already Connected",
+							JOptionPane.WARNING_MESSAGE);
+				// If user is not connected but there is no access code,
+				// information for user
+				else if (userStatus == 0 && code.equals(""))
+					JOptionPane.showMessageDialog(mainFrame,
+							"Enter Access Code !",
+							"MyCLoudJ - Enter Access code",
+							JOptionPane.WARNING_MESSAGE);
+			} catch (final IOException e1) {
+				JOptionPane.showMessageDialog(mainFrame,
+						"Access code error - Re-enter the correct access code !\n"
+								+ e1.getMessage(),
+								"MyCLoudJ - Access Code Error",
+								JOptionPane.ERROR_MESSAGE);
+				e1.printStackTrace();
+			} catch (final DbxException e1) {
+				JOptionPane.showMessageDialog(mainFrame,
+						"Access code error - Re-enter the correct access code !\n"
+								+ e1.getMessage(),
+								"MyCLoudJ - Access Code Error",
+								JOptionPane.ERROR_MESSAGE);
+				e1.printStackTrace();
+			}
+		}
+
+	}
+
 	/**
 	 * Execution of the plug-in begins here. Function contains the code to
 	 * generate Graphical User Interface (GUI) for the plug-in.
@@ -254,117 +364,7 @@ public class MyCloudJ_ implements PlugIn {
 		 * events that has to be executed after user presses the "Connect"
 		 * button.
 		 */
-		btnConnect.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(final ActionEvent e) {
-				try {
-					// retrieve the access code from textfield
-					code = accessCode.getText();
-
-					// if user is previously not connected and access code is
-					// not empty then connect it
-					if (userStatus == 0 && !code.equals("")) {
-						// connect user to dropbox
-						obj.DbxLinkUser(code);
-
-						// user status changed to 1(i.e., connected)
-						userStatus = 1;
-
-						/*
-						 * Retrieve username, country and quota from dropbox
-						 * account info API and print it in the text area for
-						 * the user
-						 */
-						userName = obj.userName;
-						country = obj.country;
-						userQuota = obj.userQuota;
-						lblStatus.setText("Connected as " + userName);
-						userInfo.setText("Username: " + userName
-								+ "\nCountry: " + country + "\nQuota: "
-								+ userQuota + " GB");
-
-						/*
-						 * Added 2 different JTree (DbxTree1 and DbxTree2) for
-						 * download and upload respectively. Because DbxTree1
-						 * contains both files/folders as nodes. However,
-						 * DbxTree2 contains only folders as nodes. For
-						 * convenience, added 2 different JTree for Dropbox
-						 * metadata. For robustness, we are checking inside the
-						 * code whether the selected node is a file or folder
-						 * rather can leaving it to user.
-						 */
-
-						/*
-						 * Create the JTree for browsing(to select path for
-						 * downloading the file/folder) Only added top
-						 * subfolder/files of the Dropbox root folder i.e. "/"
-						 * Will add new nodes on demand of the user in form of
-						 * "Expand" clicks
-						 */
-						root1 = new DefaultMutableTreeNode("/");
-						DbxTree1 = new JTree(root1);
-						treeModel1 = new DefaultTreeModel(root1);
-						obj.addChildren(root1, treeModel1, "/");
-						DbxTree1.getSelectionModel().setSelectionMode(
-								TreeSelectionModel.SINGLE_TREE_SELECTION);
-						treeModel1.reload(root1);
-
-						/*
-						 * Create the JTree for browsing(to select path for
-						 * uploading the file/folder) Only added subfolders of
-						 * the Dropbox root folder i.e. "/" Will add new nodes
-						 * on demand of the user in form of "Expand" clicks
-						 */
-						root2 = new DefaultMutableTreeNode("/");
-						DbxTree2 = new JTree(root2);
-						treeModel2 = new DefaultTreeModel(root2);
-						obj.addChildrenFolder(root2, treeModel2, "/");
-						DbxTree2.getSelectionModel().setSelectionMode(
-								TreeSelectionModel.SINGLE_TREE_SELECTION);
-						treeModel2.reload(root2);
-
-						/*
-						 * Disable the access code textfield and enable the the
-						 * right panel(which contains the tasks section) after
-						 * the user is connected.
-						 */
-						accessCode.disable();
-						// All the components of topPanel2 are enabled after
-						// successful connection with user's dropbox account
-						setEnabledAll(topPanel2, true);
-					}
-					// If user is already connected userStatus=1, warning for
-					// user
-					else if (userStatus == 1)
-						JOptionPane.showMessageDialog(mainFrame,
-								"Already connected !",
-								"MyCLoudJ - Already Connected",
-								JOptionPane.WARNING_MESSAGE);
-					// If user is not connected but there is no access code,
-					// information for user
-					else if (userStatus == 0 && code.equals(""))
-						JOptionPane.showMessageDialog(mainFrame,
-								"Enter Access Code !",
-								"MyCLoudJ - Enter Access code",
-								JOptionPane.WARNING_MESSAGE);
-				} catch (final IOException e1) {
-					JOptionPane.showMessageDialog(mainFrame,
-							"Access code error - Re-enter the correct access code !\n"
-									+ e1.getMessage(),
-									"MyCLoudJ - Access Code Error",
-									JOptionPane.ERROR_MESSAGE);
-					e1.printStackTrace();
-				} catch (final DbxException e1) {
-					JOptionPane.showMessageDialog(mainFrame,
-							"Access code error - Re-enter the correct access code !\n"
-									+ e1.getMessage(),
-									"MyCLoudJ - Access Code Error",
-									JOptionPane.ERROR_MESSAGE);
-					e1.printStackTrace();
-				}
-			}
-		});
+		btnConnect.addActionListener(new BtnConnectListener());
 
 		/*
 		 * Adds an action listener for the accessDbxButton button. This action
